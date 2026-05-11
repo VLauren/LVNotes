@@ -5,6 +5,26 @@
     <title>LVNotes</title>
 </head>
 <body>
-    <textarea>{{ content }}</textarea>
+    <textarea autocomplete="off">{{ content }}</textarea>
+
+    <script>
+        const editor = document.querySelector('textarea');
+        let timeout;
+
+        editor.addEventListener('input', ()=>
+        {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => 
+            {
+                fetch('/api/note',
+                {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain'},
+                    body: editor.value
+                });
+            }, 500);
+        });
+    </script>
+
 </body>
 </html>
