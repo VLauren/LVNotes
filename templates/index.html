@@ -1,11 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
     <title>LVNotes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body { height: 100%; }
+        textarea 
+        {
+            width: 100%; height: 100%;
+            border: none; outline: none; resize: none;
+            background: transparent; color: inherit;
+        }
+    </style>
 </head>
-<body>
-    <textarea autocomplete="off">{{ content }}</textarea>
+<body class="bg-dark text-light">
+    <div class="container-fluid p-3 h-100">
+        <textarea class="form-control bg-dark text-light border-secondary" autocomplete="off">{{ content }}</textarea>
+    </div>
 
     <script>
         const editor = document.querySelector('textarea');
