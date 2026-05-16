@@ -2,7 +2,10 @@ import os
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
-NOTE_PATH = os.path.join(os.path.dirname(__file__), "note.txt")
+#NOTE_PATH = os.path.join(os.path.dirname(__file__), "note.txt")
+NOTE_PATH = os.path.join(os.path.dirname(__file__), "data/note.txt")
+
+os.makedirs(os.path.dirname(NOTE_PATH), exist_ok=True)
 
 def read_note():
     if not os.path.exists(NOTE_PATH):
