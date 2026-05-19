@@ -8,5 +8,13 @@ services:
       - lvnotes_data:/app/data
     restart: unless-stopped
 
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    command: tunnel --url http://lvnotes:5000
+    restart: unless-stopped
+    depends_on:
+      - lvnotes
+
 volumes:
   lvnotes_data:
