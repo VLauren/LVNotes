@@ -18,27 +18,60 @@
                 padding: 1rem;
             }
         }
+        #status {
+            position: fixed;
+            bottom: 1.50rem;
+            right: 2.00rem;
+            font-size: 0.8rem;
+            color: #FFF;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        #status.visible { opacity: 1; }
     </style>
 </head>
+
 <body class="bg-dark text-light">
     <div class="container-fluid p-3 h-100">
         <textarea class="form-control bg-dark text-light border-secondary" autocomplete="off">{{ content }}</textarea>
     </div>
+    <div id="status"></div>
 
     <script>
         const editor = document.querySelector('textarea');
+        const status = document.getElementById('status');
         let timeout;
 
+        function setStatus(text) {
+          console.log("set status");
+          status.textContent = text;
+          status.classList.add('visible');
+        }
+
+        function clearStatus(delay = 5000){
+          setTimeout(() => status.classList.remove('visible'),delay);
+        }
+        
         editor.addEventListener('input', () => {
             clearTimeout(timeout);
+            setStatus('Saving...');
+
             timeout = setTimeout(() => {
                 fetch('/api/note', {
                     method: 'POST',
                     headers: {'Content-Type': 'text/plain'},
                     body: editor.value
+                }).then(() => {
+                  setStatus('Saved');
+                  clearStatus();
+                }).catch(() => {
+                  setStatus('Error');
+                  clearStatus(6000);
                 });
-            }, 500);
+          }, 500);
         });
     </script>
 </body>
+
 </html>
